@@ -379,7 +379,7 @@ public class OTAUpdaterActivity extends PreferenceActivity {
                 progressDialog.setCancelable(false);
                 progressDialog.setProgress(0);
 
-                final File file = new File(Config.DL_PATH_FILE, Slugify.slugify(info.romName + "_" + info.version) + ".zip");
+                final File file = new File(Config.DL_PATH_FILE, Slugify.slugify(info.romName + "_" + info.version) /*+ ".zip"*/);
                 dlTask = new DownloadTask(progressDialog, info, file);
 
                 progressDialog.setButton(Dialog.BUTTON_NEGATIVE, getString(R.string.alert_cancel), new DialogInterface.OnClickListener() {
