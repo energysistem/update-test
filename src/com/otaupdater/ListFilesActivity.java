@@ -18,6 +18,7 @@ package com.otaupdater;
 
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
@@ -209,6 +210,10 @@ public class ListFilesActivity extends ListActivity implements AdapterView.OnIte
     }
 
     protected static void installFileDialog(final Context ctx, final File file) {
+
+
+        final File RECOVERY_DIR=new File("/cache/recovery");
+        final File COMMAND_FILE= new File(RECOVERY_DIR, "command");
         Resources r = ctx.getResources();
         String[] installOpts = r.getStringArray(R.array.install_options);
         final boolean[] selectedOpts = new boolean[installOpts.length];
@@ -245,6 +250,8 @@ public class ListFilesActivity extends ListActivity implements AdapterView.OnIte
                         public void onClick(DialogInterface dialog, int which) {
                             try {
                                 String name = file.getName();
+
+//COMENTADO: el código original para actualizar de OTAUPDATER
 /*
                                 Process p = Runtime.getRuntime().exec("su");
                                 DataOutputStream os = new DataOutputStream(p.getOutputStream());
@@ -293,11 +300,32 @@ public class ListFilesActivity extends ListActivity implements AdapterView.OnIte
                                 ((PowerManager) ctx.getSystemService(POWER_SERVICE)).reboot("recovery");
 
                                 */
-
+/*
                                 String ruta="/sdcard/OTA-Updater/download/";
                                 File archivo=new File(ruta+name);
 
                                 RecoverySystem.installPackage(OTAUpdaterActivity.getcontext(),archivo);
+*/
+
+                                //CODIGO ACTUALIZACIÓN: ROCKCHIP
+                                //reiniciamos los directorios por si acaso
+                                RECOVERY_DIR.mkdirs();
+                                COMMAND_FILE.delete();
+
+                                //creamos un file apuntando al archivo
+                                File update=new File("/sdcard/update.img");
+
+                                //obtenemos su dirección en forma bonita
+                                String s=update.getCanonicalPath();
+
+                                //metemos la linea mágica de rockchip en el archivo command
+                                FileWriter filewriter = new FileWriter(COMMAND_FILE);
+                                filewriter.write("--update_rkimage="+s);
+                                filewriter.write("\n");
+                                filewriter.close();
+
+                                //reiniciamos en recovery
+                                ((PowerManager)OTAUpdaterActivity.getcontext().getSystemService("power")).reboot("recovery");
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
