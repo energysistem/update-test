@@ -313,10 +313,10 @@ public class ListFilesActivity extends ListActivity implements AdapterView.OnIte
                                 COMMAND_FILE.delete();
 
                                 //creamos un file apuntando al archivo
-                                File update=new File("/sdcard/update.img");
+                                //File update=new File("/sdcard/update.img");
 
                                 //obtenemos su dirección en forma bonita
-                                String s=update.getCanonicalPath();
+                                String s=file.getCanonicalPath();
 
                                 //metemos la linea mágica de rockchip en el archivo command
                                 FileWriter filewriter = new FileWriter(COMMAND_FILE);
