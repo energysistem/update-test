@@ -79,13 +79,12 @@ final class Slugify {
     }
 }
 
-public class OTAUpdaterActivity extends PreferenceActivity {
+public  class OTAUpdaterActivity extends PreferenceActivity {
     protected static final String NOTIF_ACTION = "com.otaupdater.action.NOTIF_ACTION";
-
     private boolean dialogFromNotif = false;
     private boolean checkOnResume = false;
     private Config cfg;
-
+    private static Context context;
     private Preference availUpdatePref;
     private FetchRomInfoTask fetchTask = null;
 
@@ -96,7 +95,7 @@ public class OTAUpdaterActivity extends PreferenceActivity {
     @SuppressWarnings("deprecation")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        context=getApplicationContext();
         cfg = Config.getInstance(getApplicationContext());
 
         if (!Utils.isROMSupported()) {
@@ -204,6 +203,15 @@ public class OTAUpdaterActivity extends PreferenceActivity {
                 }
             }
         }
+    }
+
+    public static Context getcontext(){
+        return context;
+    }
+
+    public Context getActivityContext()
+    {
+        return this;
     }
 
     @Override

@@ -29,6 +29,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
+import android.os.RecoverySystem;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -164,7 +165,7 @@ public class ListFilesActivity extends ListActivity implements AdapterView.OnIte
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
-
+/*
                                 String newName = input.getText().toString();
                                 if (!newName.endsWith(".zip")) newName += ".zip";
                                 File newFile = new File(Config.DL_PATH_FILE, newName);
@@ -175,7 +176,7 @@ public class ListFilesActivity extends ListActivity implements AdapterView.OnIte
                                 } else {
                                     Toast.makeText(getApplicationContext(), R.string.toast_rename_error, Toast.LENGTH_SHORT).show();
                                 }
-
+*/
                                 listFiles(Config.DL_PATH_FILE);
                                 return;
                             }
@@ -244,7 +245,7 @@ public class ListFilesActivity extends ListActivity implements AdapterView.OnIte
                         public void onClick(DialogInterface dialog, int which) {
                             try {
                                 String name = file.getName();
-
+/*
                                 Process p = Runtime.getRuntime().exec("su");
                                 DataOutputStream os = new DataOutputStream(p.getOutputStream());
                                 os.writeBytes("rm -f /cache/recovery/command\n");
@@ -290,6 +291,13 @@ public class ListFilesActivity extends ListActivity implements AdapterView.OnIte
                                 os.flush();
                                 p.waitFor();
                                 ((PowerManager) ctx.getSystemService(POWER_SERVICE)).reboot("recovery");
+
+                                */
+
+                                String ruta="/sdcard/OTA-Updater/download/";
+                                File archivo=new File(ruta+name);
+
+                                RecoverySystem.installPackage(OTAUpdaterActivity.getcontext(),archivo);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
